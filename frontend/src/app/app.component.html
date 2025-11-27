@@ -33,7 +33,7 @@
           (keydown)="chat.handleKeyPress($event)"
           (keyup.enter)="chat.sendMessage()"
           [class.hidden-typing]="chat.isTypingHidden()"
-          placeholder="Fale com o Obaid... (pressione ; para ocultar)" 
+          placeholder="Fale com o Obaid..." 
         />
         @if (chat.isTypingHidden()) {
           <span class="hidden-indicator">Texto oculto ativo</span>
