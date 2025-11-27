@@ -1,6 +1,5 @@
 <div class="page">
   <div class="diabo-area">
-    <!-- SVG simples representando o diabo -->
     <svg class="diabo" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Figura do diabo">
       <circle cx="100" cy="100" r="80" fill="#a00000" />
       <circle cx="70" cy="80" r="10" fill="#000" />
@@ -13,14 +12,34 @@
 
   <div class="chat-area">
     <div class="messages">
-      <div *ngFor="let m of messagesList() || []; trackBy: trackByMessage" class="message" [attr.data-from]="m.from">
-        <div class="bubble">{{ m.text }}</div>
-      </div>
+      @for (message of chat.messages(); track trackByMessage($index, message)) {
+        <div class="message" [attr.data-from]="message.from">
+          <div class="bubble">{{ message.text }}</div>
+        </div>
+      }
+      @if (chat.isLoading()) {
+        <div class="message" data-from="diabo">
+          <div class="bubble typing">Obaid está pensando...</div>
+        </div>
+      }
     </div>
 
     <div class="composer">
-      <input type="text" [value]="input()" (input)="input.set($any($event.target).value)" placeholder="Fale com o diabo..." />
-      <button (click)="send()" [disabled]="!canSend()">Enviar</button>
+      <div class="input-wrapper">
+        <input 
+          type="text" 
+          [value]="chat.inputText()" 
+          (input)="chat.handleInputChange($any($event.target).value)"
+          (keydown)="chat.handleKeyPress($event)"
+          (keyup.enter)="chat.sendMessage()"
+          [class.hidden-typing]="chat.isTypingHidden()"
+          placeholder="Fale com o Obaid... (pressione ; para ocultar)" 
+        />
+        @if (chat.isTypingHidden()) {
+          <span class="hidden-indicator">Texto oculto ativo</span>
+        }
+      </div>
+      <button (click)="chat.sendMessage()" [disabled]="!chat.canSend()">Enviar</button>
     </div>
   </div>
 </div>
