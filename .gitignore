@@ -2,14 +2,14 @@
 # --- Secrets and local config (do not commit) -------------------------------
 # Local OpenAI key and other local overrides
 /backend/container/configmap-local.properties
-# Temporary application properties (keep out of VCS while developing)
-/backend/src/main/resources/application.properties
-
-# Also ignore any generic application.properties or local config files that may
-# contain secrets or machine-specific overrides. Use double-star to match any
-# modules and paths (safe for monorepos).
-**/application.properties
 **/configmap-local.properties
+
+# Ignore application.properties in wrong locations or with secrets
+# BUT allow the main one in src/main/resources (it's safe - uses env vars)
+/backend/src/resources/application.properties
+**/application-local.properties
+**/application-dev.properties
+**/application-prod.properties
 
 # --- Node / Frontend -------------------------------------------------------
 # Node modules and lock files
