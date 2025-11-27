@@ -1,0 +1,26 @@
+<div class="page">
+  <div class="diabo-area">
+    <!-- SVG simples representando o diabo -->
+    <svg class="diabo" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Figura do diabo">
+      <circle cx="100" cy="100" r="80" fill="#a00000" />
+      <circle cx="70" cy="80" r="10" fill="#000" />
+      <circle cx="130" cy="80" r="10" fill="#000" />
+      <path d="M60 60 C50 40, 30 30, 20 20" stroke="#600" stroke-width="6" fill="none"/>
+      <path d="M140 60 C150 40, 170 30, 180 20" stroke="#600" stroke-width="6" fill="none"/>
+      <path d="M70 140 C90 160, 110 160, 130 140" stroke="#300" stroke-width="8" fill="none" stroke-linecap="round"/>
+    </svg>
+  </div>
+
+  <div class="chat-area">
+    <div class="messages">
+      <div *ngFor="let m of messages()" class="message" [attr.data-from]="m.from">
+        <div class="bubble">{{ m.text }}</div>
+      </div>
+    </div>
+
+    <div class="composer">
+      <input type="text" [value]="input()" (input)="input.set($any($event.target).value)" placeholder="Fale com o diabo..." />
+      <button (click)="send()" [disabled]="!canSend()">Enviar</button>
+    </div>
+  </div>
+</div>

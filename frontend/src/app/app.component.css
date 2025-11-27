@@ -1,0 +1,19 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  gap: 24px;
+}
+.diabo-area { display:flex; align-items:center; justify-content:center; }
+.diabo { width: 220px; height: 220px; filter: drop-shadow(0 6px 10px rgba(0,0,0,0.6)); }
+.chat-area { width: 90%; max-width: 720px; background: #141414; border-radius: 8px; padding: 12px; box-shadow: 0 6px 18px rgba(0,0,0,0.6); }
+.messages { max-height: 220px; overflow:auto; display:flex; flex-direction:column; gap:8px; }
+.message[data-from="user"] .bubble { background:#1a73e8; color:white; margin-left:auto; }
+.message[data-from="diabo"] .bubble { background:#2b2b2b; color:#f0a0a0; margin-right:auto; }
+.bubble { display:inline-block; padding:8px 12px; border-radius:12px; max-width:70%; }
+.composer { display:flex; gap:8px; margin-top:8px; }
+.composer input { flex:1; padding:8px; border-radius:6px; border:1px solid #222; background:#0e0e0e; color:#eee; }
+.composer button { padding:8px 14px; border-radius:6px; background:#a00000; border:none; color:white; cursor:pointer; }
+.composer button:disabled { opacity:0.5; cursor:not-allowed; }

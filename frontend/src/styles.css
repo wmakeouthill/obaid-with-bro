@@ -1,0 +1,10 @@
+/* estilos globais mínimos */
+html, body, #root, app-root {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: #111;
+  color: #eee;
+}
