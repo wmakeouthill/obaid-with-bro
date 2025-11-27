@@ -1,0 +1,6 @@
+# Local configmap for development (example)
+# Add your OpenAI API key into this file if you need to run the app locally.
+# This file contains placeholder values and is safe to commit to the repository.
+# Use the real `configmap-local.properties` (ignored by VCS) for local override.
+OPENAI_API_KEY=sk-REPLACE_ME
+openai.api.key=sk-REPLACE_ME

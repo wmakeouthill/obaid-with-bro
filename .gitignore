@@ -1,3 +1,50 @@
+
+# --- Secrets and local config (do not commit) -------------------------------
+# Local OpenAI key and other local overrides
+/backend/container/configmap-local.properties
+# Temporary application properties (keep out of VCS while developing)
+/backend/src/main/resources/application.properties
+
+# Also ignore any generic application.properties or local config files that may
+# contain secrets or machine-specific overrides. Use double-star to match any
+# modules and paths (safe for monorepos).
+**/application.properties
+**/configmap-local.properties
+
+# --- Node / Frontend -------------------------------------------------------
+# Node modules and lock files
+frontend/node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Angular / build outputs
+frontend/dist/
+frontend/.angular/
+
+# Keep the local portable Node runtime out of VCS
+frontend/node/
+
+# --- Java / Maven ---------------------------------------------------------
+# Maven target folders
+/backend/target/
+target/
+
+# IDE/editor
+.idea/
+.vscode/
+*.iml
+
+# OS files
+.DS_Store
+
+# Logs
+*.log
+
+# Environment files
+.env
+.env.*
+
 # Angular specific
 /dist/
 /out-tsc/

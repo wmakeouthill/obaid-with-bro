@@ -13,7 +13,7 @@
 
   <div class="chat-area">
     <div class="messages">
-      <div *ngFor="let m of messages()" class="message" [attr.data-from]="m.from">
+      <div *ngFor="let m of messagesList() || []; trackBy: trackByMessage" class="message" [attr.data-from]="m.from">
         <div class="bubble">{{ m.text }}</div>
       </div>
     </div>
