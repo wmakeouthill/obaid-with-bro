@@ -301,13 +301,14 @@
   .page {
     flex-direction: column;
     align-items: stretch;
-    height: 100vh;
+    height: 100dvh;
   }
 
   .image-container {
     width: 100%;
     height: auto;
-    max-height: 50vh;
+    max-height: 45vh;
+    flex-shrink: 0;
     justify-content: center;
     max-width: none;
   }
@@ -329,7 +330,7 @@
   }
 
   .chat-area {
-    flex: 1;
+    flex: 1 1 auto;
     position: relative;
     width: 100%;
     max-width: 100%;
@@ -342,18 +343,22 @@
   }
 
   .messages {
-    flex: 1;
+    flex: 1 1 auto;
     max-height: none;
-    padding-bottom: 8px;
+    padding-bottom: 56px; /* espaço para a barra de digitação fixa */
   }
 
   .composer {
-    padding: 10px;
-    position: static;
+    padding: 8px;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
     width: 100%;
     max-width: 100%;
     background: rgba(10, 10, 10, 0.97);
     box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.9);
+    box-sizing: border-box;
   }
 
   .composer input.input-field {

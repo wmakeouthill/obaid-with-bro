@@ -1,4 +1,10 @@
 /* estilos globais mínimos */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 html, body {
   height: 100%;
   width: 100%;
@@ -19,7 +25,7 @@ body {
   color: #eee;
 }
 
-/* Mobile: permitir scroll e melhor comportamento com teclado virtual */
+/* Mobile: permitir melhor comportamento com teclado virtual */
 @media (max-width: 768px) {
   html, body {
     overflow: auto;
