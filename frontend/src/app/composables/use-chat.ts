@@ -32,25 +32,33 @@ export function useChat() {
       return;
     }
 
-    const mensagemVisivel = text.split(';')[0].trim() || text;
-    const userMessage: Message = {
-      from: 'user',
-      text: mensagemVisivel,
-      timestamp: new Date()
-    };
-
-    messages.update(arr => [...arr, userMessage]);
+    const mensagemVisivel = text.split(';')[0].trim();
+    const temTextoVisivel = mensagemVisivel.length > 0;
+    
+    // Só mostra mensagem se tiver texto visível
+    if (temTextoVisivel) {
+      const userMessage: Message = {
+        from: 'user',
+        text: mensagemVisivel,
+        timestamp: new Date()
+      };
+      messages.update(arr => [...arr, userMessage]);
+    }
+    
     inputText.set('');
     isLoading.set(true);
 
     chatService.enviarMensagem(text).subscribe({
       next: (response) => {
-        const diaboMessage: Message = {
-          from: 'diabo',
-          text: response.reply,
-          timestamp: new Date()
-        };
-        messages.update(arr => [...arr, diaboMessage]);
+        // Só mostra resposta se houver resposta (não é mensagem apenas oculta)
+        if (response.reply && response.reply.trim().length > 0) {
+          const diaboMessage: Message = {
+            from: 'diabo',
+            text: response.reply,
+            timestamp: new Date()
+          };
+          messages.update(arr => [...arr, diaboMessage]);
+        }
         isLoading.set(false);
       },
       error: () => {
