@@ -37,14 +37,13 @@
             placeholder="Enter your message..." 
             class="input-field"
             [style.caret-color]="chat.hasHiddenText() ? 'transparent' : 'auto'"
+            spellcheck="false"
+            autocomplete="off"
           />
-          @if (chat.hasHiddenText()) {
-            <span class="visible-text-overlay">{{ chat.visibleText() }}</span>
-          }
-        </div>
         @if (chat.hasHiddenText()) {
-          <span class="hidden-indicator">Texto oculto ativo</span>
+          <span class="visible-text-overlay">{{ chat.visibleText() }}</span>
         }
+        </div>
       </div>
       <button (click)="chat.sendMessage()" [disabled]="!chat.canSend()">RESPONDER</button>
     </div>

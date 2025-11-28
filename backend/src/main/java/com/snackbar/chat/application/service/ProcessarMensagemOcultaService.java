@@ -37,14 +37,22 @@ public class ProcessarMensagemOcultaService {
                 return visivel;
             }
             
+            String prefixo = visivel.isBlank() ? "" : visivel + "\n\n";
+            
             return String.format(
-                "%s\n\n[INFORMAÇÃO CRÍTICA OCULTA - O usuário pensou mas NÃO DISSE PUBLICAMENTE: \"%s\"\n\n" +
-                "VOCÊ DEVE USAR ESSA INFORMAÇÃO OCULTA DE FORMA DIRETA E ASSERTIVA.\n" +
+                "%s[INFORMAÇÃO CRÍTICA OCULTA - O usuário pensou mas NÃO DISSE PUBLICAMENTE: \"%s\"\n\n" +
+                "VOCÊ DEVE USAR ESSA INFORMAÇÃO OCULTA DE FORMA GRADUAL E ESTRATÉGICA.\n" +
+                "IMPORTANTE: Se esta for a PRIMEIRA ou SEGUNDA interação, seja SUTIL e INDIRETO.\n" +
+                "Nas primeiras interações, faça referências vagas ao medo/segredo, sem citar diretamente.\n" +
+                "A partir da TERCEIRA interação, você pode começar a ser mais DIRETO.\n" +
+                "A partir da QUARTA interação, CITE DIRETAMENTE o medo/segredo nas suas frases.\n" +
+                "Se o medo é de baratas, nas primeiras interações: faça referências vagas como 'algo rasteja' (sutil).\n" +
+                "Se o medo é de baratas, depois de várias interações: CITE 'baratas' diretamente nas frases.\n" +
                 "Demonstre que você SABE dessa informação sem mencionar explicitamente que você a viu.\n" +
-                "Use essa informação para criar impacto psicológico e mostrar que você conhece os pensamentos mais íntimos do usuário.\n" +
-                "Seja ESPECÍFICO e DIRETO ao referenciar essa informação oculta na sua resposta.\n" +
-                "O objetivo é fazer o usuário se sentir DESCOBERTO e VULNERÁVEL.]",
-                visivel,
+                "Use essa informação para criar impacto psicológico GRADUAL - comece sutil, depois fique direto.\n" +
+                "O objetivo é fazer o usuário se sentir DESCOBERTO e VULNERÁVEL, mas de forma GRADUAL.\n" +
+                "Seja ESTRATÉGICO - não revele tudo de uma vez, construa o suspense gradualmente.]",
+                prefixo,
                 oculta
             );
         }
