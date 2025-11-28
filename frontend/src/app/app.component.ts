@@ -43,4 +43,8 @@ export class AppComponent implements AfterViewInit, AfterViewChecked {
       });
     }
   }
+
+  onVideoEnded(): void {
+    this.chat.showVideo.set(false);
+  }
 }
