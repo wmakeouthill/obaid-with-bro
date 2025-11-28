@@ -295,3 +295,79 @@
 .messages::-webkit-scrollbar-thumb:hover {
   background: #c00000;
 }
+
+/* Layout responsivo para mobile */
+@media (max-width: 768px) {
+  .page {
+    flex-direction: column;
+    align-items: stretch;
+    height: 100dvh;
+  }
+
+  .image-container {
+    width: 100%;
+    height: auto;
+    max-height: 45vh;
+    flex-shrink: 0;
+    justify-content: center;
+    max-width: none;
+  }
+
+  .main-image,
+  .main-video {
+    height: 100%;
+    width: 100%;
+    max-width: 100%;
+    object-fit: contain;
+    object-position: top center;
+  }
+
+  .main-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: none;
+  }
+
+  .chat-area {
+    flex: 1 1 auto;
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    min-height: 0;
+    border-left: none;
+    box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.8);
+    background: rgba(10, 10, 10, 0.85);
+    margin: 0;
+  }
+
+  .messages {
+    flex: 1 1 auto;
+    max-height: none;
+    padding-bottom: 56px; /* espaço para a barra de digitação fixa */
+  }
+
+  .composer {
+    padding: 8px;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    max-width: 100%;
+    background: rgba(10, 10, 10, 0.97);
+    box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.9);
+    box-sizing: border-box;
+  }
+
+  .composer input.input-field {
+    font-size: 14px;
+    padding: 8px 10px;
+  }
+
+  .composer button {
+    padding: 8px 14px;
+    font-size: 11px;
+  }
+}

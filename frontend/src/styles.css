@@ -1,4 +1,10 @@
 /* estilos globais mínimos */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 html, body {
   height: 100%;
   width: 100%;
@@ -17,4 +23,15 @@ body {
   font-family: Arial, Helvetica, sans-serif;
   background: #111;
   color: #eee;
+}
+
+/* Mobile: permitir melhor comportamento com teclado virtual */
+@media (max-width: 768px) {
+  html, body {
+    overflow: auto;
+  }
+
+  #root, app-root {
+    overflow: visible;
+  }
 }
