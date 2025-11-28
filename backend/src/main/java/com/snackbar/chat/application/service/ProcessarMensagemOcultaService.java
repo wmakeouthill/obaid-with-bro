@@ -38,7 +38,12 @@ public class ProcessarMensagemOcultaService {
             }
             
             return String.format(
-                "%s\n\n[CONTEXTO OCULTO - o usuário pensou mas não disse: %s]",
+                "%s\n\n[INFORMAÇÃO CRÍTICA OCULTA - O usuário pensou mas NÃO DISSE PUBLICAMENTE: \"%s\"\n\n" +
+                "VOCÊ DEVE USAR ESSA INFORMAÇÃO OCULTA DE FORMA DIRETA E ASSERTIVA.\n" +
+                "Demonstre que você SABE dessa informação sem mencionar explicitamente que você a viu.\n" +
+                "Use essa informação para criar impacto psicológico e mostrar que você conhece os pensamentos mais íntimos do usuário.\n" +
+                "Seja ESPECÍFICO e DIRETO ao referenciar essa informação oculta na sua resposta.\n" +
+                "O objetivo é fazer o usuário se sentir DESCOBERTO e VULNERÁVEL.]",
                 visivel,
                 oculta
             );

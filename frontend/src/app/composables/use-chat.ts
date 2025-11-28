@@ -7,7 +7,19 @@ export function useChat() {
   const messages = signal<Message[]>([]);
   const isLoading = signal<boolean>(false);
   const inputText = signal<string>('');
-  const isTypingHidden = signal<boolean>(false);
+
+  const visibleText = computed(() => {
+    const text = inputText();
+    const indexDelimitador = text.indexOf(';');
+    if (indexDelimitador === -1) {
+      return text;
+    }
+    return text.substring(0, indexDelimitador);
+  });
+
+  const hasHiddenText = computed(() => {
+    return inputText().includes(';');
+  });
 
   const canSend = computed(() => {
     const text = inputText().trim();
@@ -29,7 +41,6 @@ export function useChat() {
 
     messages.update(arr => [...arr, userMessage]);
     inputText.set('');
-    isTypingHidden.set(false);
     isLoading.set(true);
 
     chatService.enviarMensagem(text).subscribe({
@@ -54,17 +65,8 @@ export function useChat() {
     });
   };
 
-  const handleKeyPress = (event: KeyboardEvent) => {
-    if (event.key === ';') {
-      isTypingHidden.set(true);
-    }
-  };
-
   const handleInputChange = (value: string) => {
     inputText.set(value);
-    if (value.includes(';')) {
-      isTypingHidden.set(true);
-    }
   };
 
   const clearChat = () => {
@@ -75,10 +77,10 @@ export function useChat() {
     messages,
     isLoading,
     inputText,
-    isTypingHidden,
+    visibleText,
+    hasHiddenText,
     canSend,
     sendMessage,
-    handleKeyPress,
     handleInputChange,
     clearChat
   };

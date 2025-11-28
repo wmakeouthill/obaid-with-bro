@@ -1,9 +1,19 @@
 /* estilos globais mínimos */
-html, body, #root, app-root {
+html, body {
   height: 100%;
-}
-body {
+  width: 100%;
   margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+#root, app-root {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+body {
   font-family: Arial, Helvetica, sans-serif;
   background: #111;
   color: #eee;
