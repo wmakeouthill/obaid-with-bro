@@ -1,6 +1,22 @@
 <div class="page">
   <div class="image-container">
-    <img src="assets/obaid.png" alt="Obaid" class="main-image" />
+    <img 
+      src="assets/obaid.png" 
+      alt="Obaid" 
+      class="main-image"
+      [style.opacity]="chat.showVideo() ? '0' : '1'"
+    />
+    @if (chat.showVideo()) {
+      <video 
+        src="assets/obaid-animation.mp4" 
+        autoplay 
+        muted 
+        playsinline
+        class="main-video showing"
+        #videoElement
+        (ended)="onVideoEnded()"
+      ></video>
+    }
   </div>
   <div class="chat-area">
     <div class="chat-background" [style.background-image]="'url(assets/obaid.png)'"></div>
