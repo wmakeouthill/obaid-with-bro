@@ -10,7 +10,7 @@
 **/application-local.properties
 **/application-dev.properties
 **/application-prod.properties
-
+backend/src/main/resources/static
 # --- Node / Frontend -------------------------------------------------------
 # Node modules and lock files
 frontend/node_modules/
