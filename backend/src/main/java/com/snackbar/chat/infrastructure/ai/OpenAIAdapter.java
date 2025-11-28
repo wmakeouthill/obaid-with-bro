@@ -39,11 +39,18 @@ public class OpenAIAdapter implements AIChatPort {
     public OpenAIAdapter(@Value("${openai.api.key:}") String openaiApiKey) {
         if (openaiApiKey != null && !openaiApiKey.isBlank()) {
             this.apiKey = openaiApiKey;
-            log.info("OpenAI key provided via Spring property 'openai.api.key'");
+            log.info("OpenAI key carregada via Spring property 'openai.api.key'");
         } else {
-            this.apiKey = System.getenv("OPENAI_API_KEY");
-            if (this.apiKey != null && !this.apiKey.isBlank()) {
-                log.info("OpenAI key provided via environment variable 'OPENAI_API_KEY'");
+            String envKey = System.getenv("OPENAI_API_KEY");
+            if (envKey != null && !envKey.isBlank()) {
+                this.apiKey = envKey;
+                log.info("OpenAI key carregada via environment variable 'OPENAI_API_KEY'");
+            } else {
+                this.apiKey = null;
+                log.warn("OpenAI key NÃO encontrada! Verifique:");
+                log.warn("  1. Variável de ambiente OPENAI_API_KEY");
+                log.warn("  2. Propriedade openai.api.key no application.properties");
+                log.warn("  3. Arquivo configmap-local.properties carregado via spring.config.additional-location");
             }
         }
     }
@@ -70,7 +77,8 @@ public class OpenAIAdapter implements AIChatPort {
         }
     }
 
-    private List<Map<String, Object>> construirMensagens(String systemPrompt, List<MensagemChat> historico, String mensagemAtual) {
+    private List<Map<String, Object>> construirMensagens(String systemPrompt, List<MensagemChat> historico,
+            String mensagemAtual) {
         List<Map<String, Object>> mensagens = new ArrayList<>();
         mensagens.add(Map.of("role", "system", "content", systemPrompt));
 
@@ -87,8 +95,7 @@ public class OpenAIAdapter implements AIChatPort {
                 "model", MODELO_PADRAO,
                 "messages", mensagens,
                 "max_tokens", MAX_TOKENS,
-                "temperature", 0.9
-        );
+                "temperature", 0.9);
     }
 
     private HttpRequest criarRequisicao(String body) {
