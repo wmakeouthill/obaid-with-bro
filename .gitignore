@@ -30,6 +30,20 @@ frontend/node/
 /backend/target/
 target/
 
+# Compiled frontend files in backend static resources
+# These are generated during Maven build (copied from frontend/dist)
+# and should NOT be committed - they are build artifacts
+/backend/src/main/resources/static/main.*.js
+/backend/src/main/resources/static/polyfills.*.js
+/backend/src/main/resources/static/runtime.*.js
+/backend/src/main/resources/static/styles.*.css
+/backend/src/main/resources/static/*.map
+/backend/src/main/resources/static/3rdpartylicenses.txt
+/backend/src/main/resources/static/index.html
+# Assets directory - if it contains generated files from build, they should be ignored
+# If you have static assets that need to be versioned, consider putting them in a different location
+/backend/src/main/resources/static/assets/
+
 # IDE/editor
 .idea/
 .vscode/
