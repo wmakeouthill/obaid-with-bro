@@ -81,7 +81,7 @@ public class OpenAIAdapter implements AIChatPort {
 
         for (MensagemChat msg : historico) {
             String role = "user".equals(msg.role()) ? "user" : "assistant";
-            mensagens.add(Map.of("role", role, "content", msg.conteudo()));
+            mensagens.add(Map.of("role", role, "content", msg.content()));
         }
 
         mensagens.add(Map.of("role", "user", "content", mensagemAtual));
