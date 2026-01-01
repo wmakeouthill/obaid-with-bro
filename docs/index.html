@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>OBAID</title>
+    <meta name="description" content="OBAID - Assistente Virtual">
+    <link rel="icon" type="image/png" href="obaid.png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: #0a0a0a;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+        }
+
+        /* Iframe da aplicação */
+        #app-frame {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            opacity: 0;
+            transition: opacity 0.8s ease-in-out;
+            z-index: 1;
+        }
+
+        #app-frame.loaded {
+            opacity: 1;
+        }
+
+        /* Tela de carregamento */
+        #loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: #0a0a0a;
+            color: #eee;
+            z-index: 10;
+            transition: opacity 0.8s ease-in-out, visibility 0.8s;
+        }
+
+        #loading-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 32px;
+            padding: 24px;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .logo-container {
+            position: relative;
+            width: 180px;
+            height: 180px;
+        }
+
+        .logo {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 50%;
+            filter: drop-shadow(0 0 30px rgba(160, 0, 0, 0.6));
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .glow-ring {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 200px;
+            height: 200px;
+            border: 2px solid rgba(160, 0, 0, 0.4);
+            border-radius: 50%;
+            animation: ring-expand 2s ease-out infinite;
+        }
+
+        .glow-ring:nth-child(2) {
+            animation-delay: 0.5s;
+        }
+
+        .glow-ring:nth-child(3) {
+            animation-delay: 1s;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+                filter: drop-shadow(0 0 30px rgba(160, 0, 0, 0.6));
+            }
+
+            50% {
+                transform: scale(1.05);
+                filter: drop-shadow(0 0 50px rgba(160, 0, 0, 0.8));
+            }
+        }
+
+        @keyframes ring-expand {
+            0% {
+                transform: translate(-50%, -50%) scale(0.8);
+                opacity: 1;
+                border-color: rgba(160, 0, 0, 0.6);
+            }
+
+            100% {
+                transform: translate(-50%, -50%) scale(1.5);
+                opacity: 0;
+                border-color: rgba(160, 0, 0, 0);
+            }
+        }
+
+        .title {
+            font-size: 48px;
+            font-weight: 700;
+            color: #f0a0a0;
+            letter-spacing: 8px;
+            text-shadow: 0 0 20px rgba(160, 0, 0, 0.6), 0 4px 8px rgba(0, 0, 0, 0.8);
+            text-transform: uppercase;
+        }
+
+        .loading-text {
+            font-size: 16px;
+            color: #888;
+            letter-spacing: 2px;
+            animation: blink 1.5s ease-in-out infinite;
+        }
+
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 0.5;
+            }
+
+            50% {
+                opacity: 1;
+            }
+        }
+
+        .progress-bar {
+            width: 280px;
+            height: 4px;
+            background: #1a1a1a;
+            border-radius: 2px;
+            overflow: hidden;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.5);
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #a00000, #ff3333, #a00000);
+            background-size: 200% 100%;
+            border-radius: 2px;
+            animation: shimmer 1.5s linear infinite;
+            transition: width 0.3s ease-out;
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: 200% 0;
+            }
+
+            100% {
+                background-position: -200% 0;
+            }
+        }
+
+        .status {
+            font-size: 14px;
+            color: #666;
+            margin-top: 8px;
+        }
+
+        /* Partículas de fundo */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(160, 0, 0, 0.3);
+            border-radius: 50%;
+            animation: float 8s infinite;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 1;
+            }
+
+            90% {
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(-100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        /* Vinheta das bordas */
+        .vignette {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            background: radial-gradient(ellipse at center, transparent 40%, rgba(0, 0, 0, 0.8) 100%);
+            z-index: 1;
+        }
+
+        @media (max-width: 600px) {
+            .logo-container {
+                width: 140px;
+                height: 140px;
+            }
+
+            .glow-ring {
+                width: 160px;
+                height: 160px;
+            }
+
+            .title {
+                font-size: 32px;
+                letter-spacing: 4px;
+            }
+
+            .progress-bar {
+                width: 220px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Iframe que carrega a aplicação do Cloud Run -->
+    <iframe id="app-frame" src="https://obaid-revival-473639113210.southamerica-east1.run.app"
+        allow="microphone; camera; fullscreen" loading="eager"></iframe>
+
+    <!-- Tela de carregamento -->
+    <div id="loading-screen">
+        <div class="particles" id="particles"></div>
+        <div class="vignette"></div>
+
+        <div class="container">
+            <div class="logo-container">
+                <div class="glow-ring"></div>
+                <div class="glow-ring"></div>
+                <div class="glow-ring"></div>
+                <img src="obaid.png" alt="OBAID" class="logo">
+            </div>
+
+            <h1 class="title">OBAID</h1>
+
+            <p class="loading-text">Despertando...</p>
+
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+
+            <p class="status" id="status">Iniciando conexão...</p>
+        </div>
+    </div>
+
+    <script>
+        const appFrame = document.getElementById('app-frame');
+        const loadingScreen = document.getElementById('loading-screen');
+        const statusEl = document.getElementById('status');
+        const progressFill = document.getElementById('progress-fill');
+
+        const statusMessages = [
+            'Iniciando conexão...',
+            'Acordando o servidor...',
+            'Preparando ambiente...',
+            'Carregando aplicação...',
+            'Quase lá...'
+        ];
+
+        let currentStatus = 0;
+        let progress = 0;
+
+        // Criar partículas de fundo
+        function createParticles() {
+            const container = document.getElementById('particles');
+            for (let i = 0; i < 30; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDuration = (5 + Math.random() * 10) + 's';
+                particle.style.animationDelay = Math.random() * 5 + 's';
+                particle.style.width = (2 + Math.random() * 4) + 'px';
+                particle.style.height = particle.style.width;
+                container.appendChild(particle);
+            }
+        }
+
+        // Atualizar progresso
+        function updateProgress() {
+            if (progress < 90) {
+                progress += Math.random() * 15;
+                if (progress > 90) progress = 90;
+                progressFill.style.width = progress + '%';
+            }
+
+            if (currentStatus < statusMessages.length - 1) {
+                currentStatus++;
+                statusEl.textContent = statusMessages[currentStatus];
+            }
+        }
+
+        // Quando o iframe carregar
+        function onAppLoaded() {
+            progress = 100;
+            progressFill.style.width = '100%';
+            statusEl.textContent = 'Pronto!';
+
+            setTimeout(() => {
+                appFrame.classList.add('loaded');
+                loadingScreen.classList.add('hidden');
+            }, 500);
+        }
+
+        // Detectar quando o iframe carrega
+        appFrame.addEventListener('load', onAppLoaded);
+
+        // Fallback: se demorar muito, mostra mesmo assim
+        setTimeout(() => {
+            if (!appFrame.classList.contains('loaded')) {
+                onAppLoaded();
+            }
+        }, 15000); // 15 segundos de timeout
+
+        // Inicializar
+        createParticles();
+
+        // Atualizar progresso a cada 800ms
+        const progressInterval = setInterval(() => {
+            updateProgress();
+            if (progress >= 90) {
+                clearInterval(progressInterval);
+            }
+        }, 800);
+    </script>
+</body>
+
+</html>
